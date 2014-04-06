@@ -1,0 +1,14 @@
+Things To Do:
+
+Add overlays for Tribblix
+
+Detect Tribblix and don't show clusters
+
+Detect tribblix and don't show patches
+
+Partially selected clusters - we can only do one action.
+
+Help should depend on what's actually available - it assumes
+traditional Solaris
+
+Add icon and desktop file

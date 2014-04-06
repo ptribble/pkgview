@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+# build pkgview
+#
+
+PATH=/usr/jdk/instances/jdk1.5.0/bin:$PATH
+export PATH
+
+PVDIR=`dirname $0`
+LIBDIR=${PVDIR}/lib
+JARLIBDIR=${LIBDIR}/java
+JAVA=java
+
+XFLAGS="-Xlint -Xlint:-serial"
+
+
+PVJAR=${JARLIBDIR}/pkgview.jar
+JINGLEJAR=${JARLIBDIR}/jingle.jar
+JUMBLEJAR=${JARLIBDIR}/jumble.jar
+SWJAR=${JARLIBDIR}/swing-worker-1.2.jar
+
+BUILDJARS=${JINGLEJAR}:${JUMBLEJAR}:${SWJAR}
+
+#
+# run
+# ./build pmd
+# to use this, these checks should always pass, it's a regression if
+# any warnings appear. Of course, you must have pmd in your path
+#
+PMDCHECKS="imports,typeresolution,coupling,clone,finalizers,sunsecure,unusedcode,migrating,strictexception,braces"
+
+case $# in
+0)
+	if [ -x /opt/onbld/bin/jstyle ]; then
+	    /opt/onbld/bin/jstyle `find uk/co/petertribble -name '*.java'`
+	fi
+	javac ${XFLAGS} -classpath .:${BUILDJARS} `find uk/co/petertribble -name '*.java'`
+	jar -cmf pkgview.manifest ${PVJAR} images/*.png properties/*.properties help/*.html help/CDDL.txt `find uk/co -name '*.class'`
+	exit 0
+	;;
+esac
+
+case $1 in
+
+doc|-doc)
+	rm -fr javadoc
+	mkdir javadoc
+	javadoc -d javadoc uk.co.petertribble.pkgview 
+	;;
+
+clean|-clean)
+	rm -f `find uk/co/petertribble -name '*.class'`
+	rm -f `find . -type f -name '*~'`
+	rm -fr javadoc
+	;;
+
+pmd|-pmd)
+	pmd uk $PMDCHECKS
+	exit 0
+	;;
+
+packages)
+	cat pkgview | sed s:INSTALLED=false:INSTALLED=true: > pkgview.installed
+	./mkproto > prototype
+	pkgmk -d /tmp -f prototype -r `pwd` TRIBpkgview
+	pkgtrans -s /tmp /tmp/TRIBpkgview.pkg TRIBpkgview
+	rm -fr /tmp/TRIBpkgview
+	/bin/ls -lh /tmp/TRIBpkgview.pkg
+	rm prototype
+	rm pkgview.installed
+	rm -f depend
+	exit 0
+	;;
+
+esac

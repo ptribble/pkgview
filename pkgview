@@ -1,0 +1,101 @@
+#!/bin/sh
+#
+# run pkgview
+#
+
+INSTALLED=false
+if [ "$INSTALLED" = "true" ]; then
+    JARLIBDIR=/usr/share/pkgview
+else
+    PVDIR=`dirname $0`
+    LIBDIR=${PVDIR}/lib
+    JARLIBDIR=${LIBDIR}/java
+fi
+JAVA=java
+
+#
+# need to give java more memory to handle contents file parsing
+#
+EXTRAMEMFLAGS="-Xmx512m"
+
+PVJAR=${JARLIBDIR}/pkgview.jar
+JINGLEJAR=${JARLIBDIR}/jingle.jar
+JUMBLEJAR=${JARLIBDIR}/jumble.jar
+SWJAR=${JARLIBDIR}/swing-worker-1.2.jar
+
+PKGJARS=${PVJAR}:${JINGLEJAR}:${JUMBLEJAR}:${SWJAR}
+
+case $# in
+0)
+	$JAVA ${EXTRAMEMFLAGS} -jar ${PVJAR}
+	exit 0
+	;;
+esac
+
+case $1 in
+
+software)
+	$JAVA ${EXTRAMEMFLAGS} -jar ${PVJAR}
+	exit 0
+	;;
+
+check)
+	shift
+	$JAVA ${EXTRAMEMFLAGS} -cp ${PKGJARS} uk.co.petertribble.pkgview.PkgCheck $*
+	exit 0
+	;;
+
+profile)
+	# a path, presumably to an install products directory
+	shift
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.ProfileBuilder $*
+	exit 0
+	;;
+
+parseprofile)
+	# a path, presumably to a jumpstart profile
+	shift
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.ProfileParser $*
+	exit 0
+	;;
+
+localprofile)
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.InstalledProfile
+	exit 0
+	;;
+
+missingpackages)
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.MissingPackages
+	exit 0
+	;;
+
+packagesizes)
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.PackageSizes
+	exit 0
+	;;
+
+clustersizes)
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.ClusterSizes
+	exit 0
+	;;
+
+metaclustersizes)
+	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.MetaClusterSizes
+	exit 0
+	;;
+
+esac
+
+cat <<EOF
+Usage: $0 [subcommand]
+  Available subcommands:
+software - show installed software
+profile location - jumpstart profile builder
+parseprofile profile - parse a jumpstart profile
+localprofile - generate a jumpstart profile for current system
+missingpackages - show packages listed as dependencies that aren't installed
+packagesizes
+clustersizes
+metaclustersizes
+check - validate package installation
+EOF

@@ -1,0 +1,27 @@
+1.3
+
+Add (basic) man page
+
+Can build a package
+
+Files tab shows list of files contained in a package
+
+1.2
+
+Add check subcommand. Can do some of the simpler validation that you
+might use pkgchk for.
+
+1.1
+
+Update jingle
+
+Kill dependMap() as an API; re-implement dependencyTable
+
+pkgview script without subcommand shows the default software view
+
+Jumpstart profile builder allows selection of packages in the package
+list
+
+1.0
+
+Initial release, extracted from solview.

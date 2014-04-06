@@ -1,0 +1,2 @@
+Main-Class: uk.co.petertribble.pkgview.MultiView
+Class-Path: jingle.jar jumble.jar swing-worker-1.2.jar

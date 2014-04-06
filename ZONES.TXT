@@ -1,0 +1,9 @@
+Solaris zones confuse pkgview somewhat:
+
+/var/sadm/system/admin doesn't contain .clustertoc or CLUSTER files, so
+anything referencing clusters doesn't work. That includes the tree view
+in the main gui, anything to do with jumpstart profiles, and the
+clustersizes and metaclustersizes subcommands.
+
+/var/sadm/patch doesn't even exist, so getting hold of the list of
+available patches won't work.
