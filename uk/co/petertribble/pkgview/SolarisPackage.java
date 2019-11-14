@@ -24,7 +24,8 @@ package uk.co.petertribble.pkgview;
 
 import java.util.*;
 import java.io.File;
-import uk.co.petertribble.jumble.*;
+import uk.co.petertribble.jumble.JumbleFile;
+import uk.co.petertribble.jumble.JumbleUtils;
 
 /**
  * Describe a Solaris (SVR4) package.

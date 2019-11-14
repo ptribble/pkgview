@@ -27,7 +27,10 @@ BUILDJARS=${JINGLEJAR}:${JUMBLEJAR}:${SWJAR}
 # to use this, these checks should always pass, it's a regression if
 # any warnings appear. Of course, you must have pmd in your path
 #
-PMDCHECKS="imports,typeresolution,coupling,clone,finalizers,sunsecure,unusedcode,migrating,strictexception,braces"
+# new PMD version has rulesets
+#
+PMDRULES="imports typeresolution clone finalizers sunsecure unusedcode braces migrating strictexception"
+PMDCATRULES="security"
 
 case $# in
 0)
@@ -55,7 +58,17 @@ clean|-clean)
 	;;
 
 pmd|-pmd)
-	pmd uk $PMDCHECKS
+	RULESETS=""
+	for RULE in $PMDRULES
+	do
+	    RULESETS="${RULESETS},rulesets/java/${RULE}.xml"
+	done
+	for RULE in $PMDCATRULES
+	do
+	    RULESETS="${RULESETS},category/java/${RULE}.xml"
+	done
+	RULESETS=`echo $RULESETS|sed s:,::`
+	pmd -d uk -R $RULESETS -version 1.5 -auxclasspath `echo lib/java/* | sed 's= =:=g'` 2>/dev/null
 	exit 0
 	;;
 

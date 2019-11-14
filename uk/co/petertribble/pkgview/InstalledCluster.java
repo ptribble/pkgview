@@ -22,7 +22,8 @@
 
 package uk.co.petertribble.pkgview;
 
-import uk.co.petertribble.jumble.*;
+import uk.co.petertribble.jumble.JumbleFile;
+import uk.co.petertribble.jumble.JumbleUtils;
 import java.io.File;
 import java.util.Map;
 
