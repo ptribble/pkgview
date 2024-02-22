@@ -61,7 +61,7 @@ public class PatchInformationPanel extends JTabbedPane {
     /**
      * Display information about the given patch in the display panel.
      *
-     * @param patch  The patch to display infomation about.
+     * @param patch  The patch to display information about.
      */
     public void display(SolarisPatch patch) {
 	String sinfo = patch.getInfo();
