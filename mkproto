@@ -7,11 +7,8 @@
 #
 
 JARDIR=usr/share/pkgview
-LIBDIR=usr/lib
 OWNER="root bin"
 SYSOWNER="root sys"
-
-PKGTYPE="standalone"
 
 echo "i pkginfo=./pkginfo"
 
@@ -24,6 +21,6 @@ echo "f none /${JARDIR}/README=./README 0644 ${OWNER}"
 
 for path in lib/java/*
 do
-	pname=`basename $path`
+	pname=`basename "$path"`
 	echo "f none /${JARDIR}/${pname}=${path} 0644 ${OWNER}"
 done

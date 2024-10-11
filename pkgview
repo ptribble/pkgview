@@ -7,7 +7,7 @@ INSTALLED=false
 if [ "$INSTALLED" = "true" ]; then
     JARLIBDIR=/usr/share/pkgview
 else
-    PVDIR=`dirname $0`
+    PVDIR=`dirname "$0"`
     LIBDIR=${PVDIR}/lib
     JARLIBDIR=${LIBDIR}/java
 fi
@@ -27,7 +27,7 @@ PKGJARS=${PVJAR}:${JINGLEJAR}:${JUMBLEJAR}:${SWJAR}
 
 case $# in
 0)
-	$JAVA ${EXTRAMEMFLAGS} -jar ${PVJAR}
+	$JAVA ${EXTRAMEMFLAGS} -jar "${PVJAR}"
 	exit 0
 	;;
 esac
@@ -35,52 +35,52 @@ esac
 case $1 in
 
 software)
-	$JAVA ${EXTRAMEMFLAGS} -jar ${PVJAR}
+	$JAVA ${EXTRAMEMFLAGS} -jar "${PVJAR}"
 	exit 0
 	;;
 
 check)
 	shift
-	$JAVA ${EXTRAMEMFLAGS} -cp ${PKGJARS} uk.co.petertribble.pkgview.PkgCheck $*
+	$JAVA ${EXTRAMEMFLAGS} -cp "${PKGJARS}" uk.co.petertribble.pkgview.PkgCheck "$@"
 	exit 0
 	;;
 
 profile)
 	# a path, presumably to an install products directory
 	shift
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.ProfileBuilder $*
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.ProfileBuilder "$@"
 	exit 0
 	;;
 
 parseprofile)
 	# a path, presumably to a jumpstart profile
 	shift
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.ProfileParser $*
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.ProfileParser "$@"
 	exit 0
 	;;
 
 localprofile)
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.InstalledProfile
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.InstalledProfile
 	exit 0
 	;;
 
 missingpackages)
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.MissingPackages
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.MissingPackages
 	exit 0
 	;;
 
 packagesizes)
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.PackageSizes
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.PackageSizes
 	exit 0
 	;;
 
 clustersizes)
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.ClusterSizes
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.ClusterSizes
 	exit 0
 	;;
 
 metaclustersizes)
-	$JAVA -cp ${PKGJARS} uk.co.petertribble.pkgview.MetaClusterSizes
+	$JAVA -cp "${PKGJARS}" uk.co.petertribble.pkgview.MetaClusterSizes
 	exit 0
 	;;
 
